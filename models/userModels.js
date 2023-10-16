@@ -73,6 +73,15 @@ class User {
     users.push(userData);
 
     fs.writeFileSync("usuarios.json", JSON.stringify(users, null, 2));
+
+    return {
+      cod: userData.cod,
+      cod_company: userData.cod_company,
+      company: userData.company,
+      username: userData.username,
+      email: userData.email,
+      full_name: userData.full_name
+    };
   }
 
   updateUser() {}

@@ -23,7 +23,7 @@ router.post("/create-user", (req, res) => {
   userController.createUser(req, res);
 });
 
-router.put("/update-user", (req, res) => {
+router.put("/update-user/:cod", (req, res) => {
   userController.updateUser(req, res);
 });
 
