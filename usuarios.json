@@ -1,0 +1,20 @@
+[
+  {
+    "company": "Nome da Empresa",
+    "username": "Nome de Usuário",
+    "email": "exemplo@email.com",
+    "password": "senha_segura",
+    "full_name": "Nome Completo",
+    "date_of_birth": "Data de Nascimento",
+    "phone_number": "Número de Telefone"
+  },
+  {
+    "company": "Nome da Empresa2",
+    "username": "Nome de Usuário",
+    "email": "exemplo@email.com",
+    "password": "senha_segura",
+    "full_name": "Nome Completo",
+    "date_of_birth": "Data de Nascimento",
+    "phone_number": "Número de Telefone"
+  }
+]
