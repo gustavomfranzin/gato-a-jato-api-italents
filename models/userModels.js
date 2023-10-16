@@ -86,7 +86,21 @@ class User {
 
   updateUser() {}
 
-  deleteUser() {}
+  deleteUser(cod) {
+    const usersData = fs.readFileSync("usuarios.json", "utf-8");
+    let users = JSON.parse(usersData);
+
+    const userIndex = users.findIndex((user) => user.cod == cod);
+    
+
+    if (userIndex === -1) {
+        throw new Error("Usuário não encontrado");
+    }
+
+    users.splice(userIndex, 1);
+
+    fs.writeFileSync("usuarios.json", JSON.stringify(users, null, 2));
+  }
 }
 
 export default User;

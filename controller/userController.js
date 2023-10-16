@@ -39,6 +39,27 @@ class UserController {
         .json({ error: "Erro ao cadastrar o usuário: " + error.message });
     }
   }
+
+  async deleteUser(req, res) {
+    try {
+      const { cod } = req.params;
+
+      if (!cod) {
+        return res.status(400).json({ error: "Parâmetros inválidos." });
+      }
+
+      const user = new User();
+      user.deleteUser(cod);
+
+      res.json({
+        message: "Usuário excluído com sucesso",
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "Erro ao excluir o usuário: " + error.message });
+    }
+  }
 }
 
 export default UserController;
