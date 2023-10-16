@@ -21,7 +21,6 @@ class User {
   }
 
   static userExists(username, email) {
-    console.log(username, email);
     const usersData = fs.readFileSync("usuarios.json", "utf-8");
     const users = JSON.parse(usersData);
 
@@ -39,6 +38,7 @@ class User {
       return Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
     }
 
+    const cod = generateRandomNumber();
     const cod_company = generateRandomNumber();
 
     const salt = bcrypt.genSaltSync(10);
@@ -50,11 +50,12 @@ class User {
     const role = "owner";
 
     const userData = {
-      cod_company: cod_company,
+      cod,
+      cod_company,
       company: this.company,
       username: this.username,
       email: this.email,
-      hashed_password: hashed_password,
+      hashed_password,
       full_name: this.full_name,
       date_of_birth: this.date_of_birth,
       phone_number: this.phone_number,
