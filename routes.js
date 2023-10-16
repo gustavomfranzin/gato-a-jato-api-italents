@@ -5,5 +5,5 @@ export default (app) => {
         res.send('API Avaible at' + new Date());
     });
 
-    app.use('/login', UserRoutes);
+    app.use('/auth', UserRoutes);
 }

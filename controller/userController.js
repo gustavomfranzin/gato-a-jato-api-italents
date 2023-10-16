@@ -1,5 +1,4 @@
 import User from "../models/userModels.js";
-
 class UserController {
   async createUser(req, res) {
     try {
@@ -12,6 +11,11 @@ class UserController {
         date_of_birth,
         phone_number,
       } = req.body;
+
+      if (!company || !username || !email || !password || !full_name) {
+        return res.status(400).json({ error: "Campos obrigatórios não preenchidos." });
+      }
+
       const newUser = new User(
         company,
         username,
@@ -21,12 +25,11 @@ class UserController {
         date_of_birth,
         phone_number
       );
-      newUser.save();
+      newUser.newUser();
 
       res.json({ message: "Usuário cadastrado com sucesso" });
     } catch (error) {
-      console.error("Erro ao cadastrar o usuário:", error);
-      res.status(500).json({ error: "Erro ao cadastrar o usuário"});
+      res.status(500).json({ error: "Erro ao cadastrar o usuário: " + error.message });
     }
   }
 }

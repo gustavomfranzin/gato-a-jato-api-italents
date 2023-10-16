@@ -1,51 +1,82 @@
 import fs from "fs";
+import bcrypt from "bcryptjs";
 
 class User {
-    constructor(company, username, email, password, full_name, date_of_birth, phone_number) {
-      this.company = company; 
-      this.username = username;
-      this.email = email;
-      this.password = password;
-      this.full_name = full_name;
-      this.date_of_birth = date_of_birth;
-      this.phone_number = phone_number;
-    }
-  
-    save() {
-    
-      const userData = {
-        company: this.company,
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        full_name: this.full_name,
-        date_of_birth: this.date_of_birth,
-        phone_number: this.phone_number,
-      };
-  
-      
-      let users = [];
-      try {
-        const usersData = fs.readFileSync('usuarios.json', 'utf-8');
-        users = JSON.parse(usersData);
-      } catch (error) {
-      
-      }
-  
-    
-      users.push(userData);
-  
-    
-      fs.writeFileSync('usuarios.json', JSON.stringify(users, null, 2));
-  
-      console.log('Usuário cadastrado com sucesso.');
-    }
-  
-  
-    update() {}
-  
-    delete() {}
+  constructor(
+    company,
+    username,
+    email,
+    password,
+    full_name,
+    date_of_birth,
+    phone_number
+  ) {
+    this.company = company;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.full_name = full_name;
+    this.date_of_birth = date_of_birth;
+    this.phone_number = phone_number;
   }
-  
-  export default User;
-  
+
+  static userExists(username, email) {
+    console.log(username, email);
+    const usersData = fs.readFileSync("usuarios.json", "utf-8");
+    const users = JSON.parse(usersData);
+
+    return users.some(
+      (user) => user.username === username || user.email === email
+    );
+  }
+
+  newUser() {
+    if (User.userExists(this.username, this.email)) {
+      throw new Error("Nome de usuário ou email já existe.");
+    }
+
+    function generateRandomNumber() {
+      return Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
+    }
+
+    const cod_company = generateRandomNumber();
+
+    const salt = bcrypt.genSaltSync(10);
+
+    const hashed_password = bcrypt.hashSync(this.password, salt);
+
+    const permissions = "root";
+
+    const role = "owner";
+
+    const userData = {
+      cod_company: cod_company,
+      company: this.company,
+      username: this.username,
+      email: this.email,
+      hashed_password: hashed_password,
+      full_name: this.full_name,
+      date_of_birth: this.date_of_birth,
+      phone_number: this.phone_number,
+      permissions,
+      role,
+    };
+    let users = [];
+    try {
+      const usersData = fs.readFileSync("usuarios.json", "utf-8");
+      users = JSON.parse(usersData);
+    } catch (error) {
+      console.error(error);
+    }
+
+    users.push(userData);
+
+    fs.writeFileSync("usuarios.json", JSON.stringify(users, null, 2));
+  }
+
+  updateUser() {}
+
+  deleteUser() {}
+}
+
+export default User;
